@@ -1,0 +1,50 @@
+{
+"AWSTemplateFormatVersion": "2010-09-09",
+  "Description": " cloudformation Security Group",
+  "Resources" : {
+"WebServerSG": {
+  "Type" : "AWS::EC2::SecurityGroup",
+  "Properties" : {
+ 	"GroupName" : "your_username without any numbers",
+ 	"GroupDescription" : "EC2 Security Group",
+ 	"SecurityGroupIngress" : [
+{
+        	"IpProtocol": "tcp",
+        	"CidrIp": "0.0.0.0/0",
+        	"FromPort": "22",
+        	"ToPort": "22"
+      	}
+]
+  }
+},
+"EC2Instance": {
+   "Type" : "AWS::EC2::Instance",
+   "Properties" : {
+      "ImageId" : "ami-d9a98cb0",
+      "InstanceType" : "t1.micro",
+      "KeyName" : "your_username-key",
+      "SecurityGroupIds" : [ { "Ref" :  "WebServerSG" } ]
+   }
+}
+},
+"Outputs": {
+    	"SecurityGroupID": {
+        	"Value": {
+            	"Fn::GetAtt": [
+                	"WebServerSG",
+                	"GroupId"
+            	]
+        	},
+        	"Description": "Security Group ID"
+    	},
+    		"PublicIp": {
+        	"Value": {
+            	"Fn::GetAtt": [
+                	"EC2Instance",
+                	"PublicIp"
+            	]
+        	},
+        	"Description": "EC2 Public IP address"
+    	}
+}
+}
