@@ -1,0 +1,914 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Metadata": {
+        "AWS::CloudFormation::Designer": {
+            "729bfe3c-d391-4123-a2d8-9efaa7a26e65": {
+                "size": {
+                    "width": 510,
+                    "height": 310
+                },
+                "position": {
+                    "x": 10,
+                    "y": 60
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "5c181826-4019-4230-b93c-1587ed7d8961": {
+                "size": {
+                    "width": 260,
+                    "height": 80
+                },
+                "position": {
+                    "x": -480,
+                    "y": 40
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "d0d65af4-0705-4453-95c2-a084661c24a6": {
+                "size": {
+                    "width": 250,
+                    "height": 80
+                },
+                "position": {
+                    "x": -480,
+                    "y": 170
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "c1a3a90d-287d-454e-bd80-4f3d7ae1858c": {
+                "size": {
+                    "width": 230,
+                    "height": 90
+                },
+                "position": {
+                    "x": -480,
+                    "y": 290
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "3918fde7-0452-4866-9bf0-87f2cdfe48c7": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -506.2853020951102,
+                    "y": 404.4853715050373
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "14dd569f-d61d-4537-ba2a-e971847aa544": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -346.97699789679564,
+                    "y": 406.4281541726192
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "7f2b184f-c922-4bc8-9aea-c281b077e7bf": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -210,
+                    "y": 410
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "cc7d68d6-3a48-4373-a6d4-38594c7e03fd": {
+                "size": {
+                    "width": 200,
+                    "height": 80
+                },
+                "position": {
+                    "x": -780,
+                    "y": 40
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "1460485a-2dfe-44d5-acb6-0e5868294385": {
+                "size": {
+                    "width": 200,
+                    "height": 80
+                },
+                "position": {
+                    "x": -780,
+                    "y": 140
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "945fbe3f-d87a-4751-a642-992638203ba9": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": -100,
+                    "y": 410
+                },
+                "z": 0,
+                "embeds": [],
+                "isassociatedwith": [
+                    "14dd569f-d61d-4537-ba2a-e971847aa544",
+                    "7f2b184f-c922-4bc8-9aea-c281b077e7bf"
+                ],
+                "iscontainedinside": [
+                    "5c181826-4019-4230-b93c-1587ed7d8961",
+                    "d0d65af4-0705-4453-95c2-a084661c24a6"
+                ]
+            },
+            "cc9eef41-6101-4f7e-b69b-0dd2e5c719fe": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 60,
+                    "y": 410
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "805b4c43-1239-4c5c-9a33-82078ddeb8ce": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 60,
+                    "y": 490
+                },
+                "z": 0,
+                "embeds": []
+            },
+            "12f46aac-055f-45c1-9b18-fb4e50b5a13b": {
+                "size": {
+                    "width": 60,
+                    "height": 60
+                },
+                "position": {
+                    "x": 60,
+                    "y": 570
+                },
+                "z": 0
+            }
+        }
+    },
+    "Parameters": {
+        "InstanceType": {
+            "Description": "WebServer EC2 instance type",
+            "Type": "String",
+            "Default": "t1.micro",
+            "AllowedValues": [
+                "t1.micro"
+            ],
+            "ConstraintDescription": "Must be a valid EC2 instance type."
+        },
+        "VolumeName": {
+            "Description": "The name to be used for the EFS volume",
+            "Type": "String",
+            "MinLength": "1",
+            "Default": "ApacheStorage"
+        },
+        "KeyName": {
+            "Type": "AWS::EC2::KeyPair::KeyName",
+            "Description": "Name of an existing EC2 key pair to enable SSH access to the ECS instances"
+        },
+        "WebServerPort": {
+            "Description": "The TCP port for the Web Server",
+            "Type": "Number",
+            "Default": "80"
+        },
+        "SSHLocation": {
+            "Description": "The IP address range that can be used to connect to the EC2 instances by using SSH",
+            "Type": "String",
+            "MinLength": "9",
+            "MaxLength": "18",
+            "Default": "0.0.0.0/0",
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+            "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+        },
+        "MountPoint": {
+            "Description": "The Linux mount point for the EFS volume",
+            "Type": "String",
+            "MinLength": "1",
+            "Default": "ApacheStorage"
+        }
+    },
+    "Mappings": {
+        "AWSInstanceType2Arch": {
+            "t1.micro": {
+                "Arch": "64"
+            }
+        },
+        "AWSRegionArch2AMI": {
+            "us-east-1": {
+                "32": "ami-aba768c2",
+                "64": "ami-81a768e8"
+            }
+        },
+        "Region2Examples": {
+            "us-east-1": {
+                "Examples": "https://s3.amazonaws.com/cloudformation-examples-us-east-1"
+            }
+        }
+    },
+    "Resources": {
+        "ApacheStack": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "10.0.0.0/16",
+                "InstanceTenancy": "default"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "729bfe3c-d391-4123-a2d8-9efaa7a26e65"
+                }
+            }
+        },
+        "ELB1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties" : {
+                "VpcId" : { "Ref" : "ApacheStack" },
+                "AvailabilityZone" : "us-east-1a",
+                "CidrBlock" : "10.0.20.0/24",
+                "MapPublicIpOnLaunch" : "true"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "5c181826-4019-4230-b93c-1587ed7d8961"
+                }
+            }
+        },
+        "ELB2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId" : { "Ref" : "ApacheStack" },
+                "AvailabilityZone": "us-east-1b",
+                "CidrBlock": "10.0.21.0/24",
+                "MapPublicIpOnLaunch": "true"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "d0d65af4-0705-4453-95c2-a084661c24a6"
+                }
+            }
+        },
+        "AppZone1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId" : { "Ref" : "ApacheStack" },
+                "AvailabilityZone": "us-east-1a",
+                "CidrBlock": "10.0.0.0/24"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "cc7d68d6-3a48-4373-a6d4-38594c7e03fd"
+                }
+            }
+        },
+        "AppZone2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId" : { "Ref" : "ApacheStack" },
+                "AvailabilityZone": "us-east-1b",
+                "CidrBlock": "10.0.1.0/24"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "1460485a-2dfe-44d5-acb6-0e5868294385"
+                }
+            }
+        },
+        "CustomRoute": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId" : { "Ref" : "ApacheStack" }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "c1a3a90d-287d-454e-bd80-4f3d7ae1858c"
+                }
+            }
+        },
+        "InternetGateway": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {},
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "3918fde7-0452-4866-9bf0-87f2cdfe48c7"
+                }
+            }
+        },
+        "LoadBalancer": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "VpcId" : { "Ref" : "ApacheStack" },
+                "GroupDescription": "ELB traffic"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "14dd569f-d61d-4537-ba2a-e971847aa544"
+                }
+            }
+        },
+        "AppServers": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "VpcId" : { "Ref" : "ApacheStack" },
+                "GroupDescription": "EC2 traffic"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "7f2b184f-c922-4bc8-9aea-c281b077e7bf"
+                }
+            }
+        },
+        "MountTargetSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Security group for mount target",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "2049",
+                        "ToPort": "2049",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId" : { "Ref" : "ApacheStack" }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "35845194-383f-4f21-bcbc-6e7a33d0e389"
+                }
+            }
+        },
+        "ApplicationLoadBalancer": {
+            "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+            "Properties": {
+                "Subnets": [
+                    { "Ref": "ELB1" },{ "Ref": "ELB2" }
+                ],
+                "SecurityGroups": [
+                    { "Ref": "LoadBalancer" },{ "Ref": "AppServers" }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "cc9eef41-6101-4f7e-b69b-0dd2e5c719fe"
+                }
+            }
+        },
+        "ALBListener": {
+            "Type": "AWS::ElasticLoadBalancingV2::Listener",
+            "Properties": {
+                "DefaultActions" : {
+                    "Type" : "forward",
+                    "TargetGroupArn" : { "Ref" : "ALBTargetGroup" }
+                },
+                "LoadBalancerArn" : { "Ref" : "ApplicationLoadBalancer" },
+                "Port" : "80",
+                "Protocol" : "HTTP"
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "12f46aac-055f-45c1-9b18-fb4e50b5a13b"
+                }
+            }
+        },
+        "ALBTargetGroup": {
+            "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+            "Properties": {
+                "HealthCheckIntervalSeconds" : 30,
+                "HealthCheckTimeoutSeconds" : 5,
+                "HealthyThresholdCount" : 3,
+                "Port" : 80,
+                "Protocol" : "HTTP",
+                "UnhealthyThresholdCount" : 5,
+                "VpcId" : { "Ref" : "ApacheStack" }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "805b4c43-1239-4c5c-9a33-82078ddeb8ce"
+                }
+            }
+        },
+        "MountTarget": {
+            "Type": "AWS::EFS::MountTarget",
+            "Properties": {
+                "FileSystemId": {
+                    "Ref": "FileSystem"
+                },
+                "SecurityGroups": [
+                    {
+                        "Ref": "MountTargetSecurityGroup"
+                    }
+                ],
+                "SubnetId": { "Ref" : "AppZone1" }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "5ebc1faf-989d-4f2a-88af-0ad9d6b0102e"
+                }
+            }
+        },
+        "FileSystem": {
+            "Type": "AWS::EFS::FileSystem",
+            "Properties": {
+                "PerformanceMode": "generalPurpose",
+                "FileSystemTags": [
+                    {
+                        "Key": "Name",
+                        "Value": { "Ref": "VolumeName" }
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "06636dce-2f90-476a-a47b-311924d3cbb9"
+                }
+            }
+        },
+        "WebServerGroup" : {
+            "Type" : "AWS::AutoScaling::AutoScalingGroup",
+            "Properties" : {
+                "VPCZoneIdentifier" : [
+                    { "Ref": "ELB1" },{ "Ref": "ELB2" }
+                ],
+                "LaunchConfigurationName" : { "Ref" : "LaunchConfig" },
+                "MinSize" : "1",
+                "MaxSize" : "3",
+                "TargetGroupARNs" : [ { "Ref" : "ALBTargetGroup" } ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "EFS FileSystem Mounted Instance",
+                        "PropagateAtLaunch": "true"
+                    }
+                ],
+                "CreationPolicy" : {
+                    "ResourceSignal" : 
+                    {
+                        "Timeout" : "PT15M",
+                        "Count"   : "1"
+                    }
+                },
+                "UpdatePolicy": {
+                    "AutoScalingRollingUpdate": 
+                    {
+                        "MinInstancesInService": "1",
+                        "MaxBatchSize": "1",
+                        "PauseTime" : "PT15M",
+                        "WaitOnResourceSignals": "true"
+                    }
+                }
+            }
+        },
+        "WebServerScaleUpPolicy" : {
+            "Type" : "AWS::AutoScaling::ScalingPolicy",
+            "Properties" : {
+                "AdjustmentType" : "ChangeInCapacity",
+                "AutoScalingGroupName" : { "Ref" : "WebServerGroup" },
+                "Cooldown" : "60",
+                "ScalingAdjustment" : "1"
+            }
+        },
+        "WebServerScaleDownPolicy" : {
+            "Type" : "AWS::AutoScaling::ScalingPolicy",
+            "Properties" : {
+                "AdjustmentType" : "ChangeInCapacity",
+                "AutoScalingGroupName" : { "Ref" : "WebServerGroup" },
+                "Cooldown" : "60",
+                "ScalingAdjustment" : "-1"
+            }
+        },
+        "CPUAlarmHigh": {
+            "Type": "AWS::CloudWatch::Alarm",
+            "Properties": {
+                "AlarmDescription": "Scale-up if CPU > 90% for 10 minutes",
+                "MetricName": "CPUUtilization",
+                "Namespace": "AWS/EC2",
+                "Statistic": "Average",
+                "Period": "300",
+                "EvaluationPeriods": "2",
+                "Threshold": "90",
+                "AlarmActions": [ { "Ref": "WebServerScaleUpPolicy" } ],
+                "Dimensions": [
+                    {
+                        "Name": "AutoScalingGroupName",
+                        "Value": { "Ref": "WebServerGroup" }
+                    }
+                ],
+                "ComparisonOperator": "GreaterThanThreshold"
+            }
+        },
+        "CPUAlarmLow": {
+            "Type": "AWS::CloudWatch::Alarm",
+            "Properties": {
+                "AlarmDescription": "Scale-down if CPU < 70% for 10 minutes",
+                "MetricName": "CPUUtilization",
+                "Namespace": "AWS/EC2",
+                "Statistic": "Average",
+                "Period": "300",
+                "EvaluationPeriods": "2",
+                "Threshold": "70",
+                "AlarmActions": [ { "Ref": "WebServerScaleDownPolicy" } ],
+                "Dimensions": [
+                    {
+                        "Name": "AutoScalingGroupName",
+                        "Value": { "Ref": "WebServerGroup" }
+                    }
+                ],
+                "ComparisonOperator": "LessThanThreshold"
+            }
+        },
+        "CloudWatchPutMetricsRolePolicy": {
+            "Type": "AWS::IAM::Policy",
+            "Properties": {
+                "PolicyName": "CloudWatch_PutMetricData",
+                "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "CloudWatchPutMetricData",
+                            "Effect": "Allow",
+                            "Action": 
+                             [
+                                "cloudwatch:PutMetricData"
+                            ],
+                            "Resource":
+                            [
+                                "*"
+                            ]
+                        }
+                    ]
+                },
+                "Roles": [
+                    {
+                        "Ref": "CloudWatchPutMetricsRole"
+                    }
+                ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "592dddd4-d439-4ae6-8815-460b84319a2d"
+                }
+            }
+        },
+        "CloudWatchPutMetricsInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [ { "Ref": "CloudWatchPutMetricsRole" } ]
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Designer": {
+                    "id": "25c5abab-b40f-4b2a-a984-0ada0f494672"
+                }
+            }
+        },
+        "CloudWatchPutMetricsRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [ "ec2.amazonaws.com" ]
+                            },
+                            "Action": [ "sts:AssumeRole" ]
+                        }
+                    ]
+                },
+                "Path": "/"
+            }
+        },
+        "LaunchConfig": {
+            "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Metadata": {
+                "Comment": "Install a simple application",
+                "AWS::CloudFormation::Init": {
+                    "configSets": {
+                        "ServerConfig": [
+                            "setup",
+                            "mount"
+                        ]
+                    },
+                    "setup": {
+                        "packages": {
+                            "yum": {
+                                "httpd": [],
+                                "nfs-utils": []
+                            }
+                        },
+                        "files": {
+                            "/var/www/html/index.html": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "\n",
+                                        [
+                                            "<img src=\"",
+                                            {
+                                                "Fn::FindInMap": [
+                                                    "Region2Examples",
+                                                    {
+                                                        "Ref": "AWS::Region"
+                                                    },
+                                                    "Examples"
+                                                ]
+                                            },
+                                            "/cloudformation_graphic.png\" alt=\"AWS CloudFormation Logo\"/>",
+                                            "<h1>Congratulations, you have successfully launched the AWS CloudFormation sample.</h1>"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000644",
+                                "owner": "root",
+                                "group": "root"
+                            },
+                            "/home/ec2-user/post_nfsstat": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "#!/bin/bash\n",
+                                            "\n",
+                                            "INPUT=\"$(cat)\"\n",
+                                            "CW_JSON_OPEN='{ \"Namespace\": \"EFS\", \"MetricData\": [ '\n",
+                                            "CW_JSON_CLOSE=' ] }'\n",
+                                            "CW_JSON_METRIC=''\n",
+                                            "METRIC_COUNTER=0\n",
+                                            "\n",
+                                            "for COL in 1 2 3 4 5 6; do\n",
+                                            "\n",
+                                            " COUNTER=0\n",
+                                            " METRIC_FIELD=$COL\n",
+                                            " DATA_FIELD=$(($COL+($COL-1)))\n",
+                                            "\n",
+                                            " while read line; do\n",
+                                            "   if [[ COUNTER -gt 0 ]]; then\n",
+                                            "\n",
+                                            "     LINE=`echo $line | tr -s ' ' `\n",
+                                            "     AWS_COMMAND=\"aws cloudwatch put-metric-data --region ",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\"\n",
+                                            "     MOD=$(( $COUNTER % 2))\n",
+                                            "\n",
+                                            "     if [ $MOD -eq 1 ]; then\n",
+                                            "       METRIC_NAME=`echo $LINE | cut -d ' ' -f $METRIC_FIELD`\n",
+                                            "     else\n",
+                                            "       METRIC_VALUE=`echo $LINE | cut -d ' ' -f $DATA_FIELD`\n",
+                                            "     fi\n",
+                                            "\n",
+                                            "     if [[ -n \"$METRIC_NAME\" && -n \"$METRIC_VALUE\" ]]; then\n",
+                                            "       INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)\n",
+                                            "       CW_JSON_METRIC=\"$CW_JSON_METRIC { \\\"MetricName\\\": \\\"$METRIC_NAME\\\", \\\"Dimensions\\\": [{\\\"Name\\\": \\\"InstanceId\\\", \\\"Value\\\": \\\"$INSTANCE_ID\\\"} ], \\\"Value\\\": $METRIC_VALUE },\"\n",
+                                            "       unset METRIC_NAME\n",
+                                            "       unset METRIC_VALUE\n",
+                                            "\n",
+                                            "       METRIC_COUNTER=$((METRIC_COUNTER+1))\n",
+                                            "       if [ $METRIC_COUNTER -eq 20 ]; then\n",
+                                            "         # 20 is max metric collection size, so we have to submit here\n",
+                                            "         aws cloudwatch put-metric-data --region ",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            " --cli-input-json \"`echo $CW_JSON_OPEN ${CW_JSON_METRIC%?} $CW_JSON_CLOSE`\"\n",
+                                            "\n",
+                                            "         # reset\n",
+                                            "         METRIC_COUNTER=0\n",
+                                            "         CW_JSON_METRIC=''\n",
+                                            "       fi\n",
+                                            "     fi  \n",
+                                            "\n",
+                                            "\n",
+                                            "\n",
+                                            "     COUNTER=$((COUNTER+1))\n",
+                                            "   fi\n",
+                                            "\n",
+                                            "   if [[ \"$line\" == \"Client nfs v4:\" ]]; then\n",
+                                            "     # the next line is the good stuff \n",
+                                            "     COUNTER=$((COUNTER+1))\n",
+                                            "   fi\n",
+                                            " done <<< \"$INPUT\"\n",
+                                            "done\n",
+                                            "\n",
+                                            "# submit whatever is left\n",
+                                            "aws cloudwatch put-metric-data --region ",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            " --cli-input-json \"`echo $CW_JSON_OPEN ${CW_JSON_METRIC%?} $CW_JSON_CLOSE`\""
+                                        ]
+                                    ]
+                                },
+                                "mode": "000755",
+                                "owner": "ec2-user",
+                                "group": "ec2-user"
+                            },
+                            "/etc/cfn/cfn-hup.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[main]\n",
+                                            "stack=",
+                                            {
+                                                "Ref": "AWS::StackId"
+                                            },
+                                            "\n",
+                                            "region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000400",
+                                "owner": "root",
+                                "group": "root"
+                            },
+                            "/etc/cfn/hooks.d/cfn-auto-reloader.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[cfn-auto-reloader-hook]\n",
+                                            "triggers=post.update\n",
+                                            "path=Resources.LaunchConfig.Metadata.AWS::CloudFormation::Init\n",
+                                            "action=/opt/aws/bin/cfn-init -v ",
+                                            "         --stack ",
+                                            {
+                                                "Ref": "AWS::StackName"
+                                            },
+                                            "         --resource LaunchConfig ",
+                                            "         --region ",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n",
+                                            "runas=root\n"
+                                        ]
+                                    ]
+                                },
+                                "mode": "000400",
+                                "owner": "root",
+                                "group": "root"
+                            },
+                            "/home/ec2-user/crontab": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "* * * * * /usr/sbin/nfsstat | /home/ec2-user/post_nfsstat\n"
+                                        ]
+                                    ]
+                                },
+                                "owner": "ec2-user",
+                                "group": "ec2-user"
+                            }
+                        },
+                        "commands": {
+                            "01_createdir": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "mkdir /",
+                                            {
+                                                "Ref": "MountPoint"
+                                            }
+                                        ]
+                                    ]
+                                }
+                            }
+                        },
+                        "services": {
+                            "sysvinit": {
+                                "httpd": {
+                                    "enabled": "true",
+                                    "ensureRunning": "true"
+                                },
+                                "cfn-hup": {
+                                    "enabled": "true",
+                                    "ensureRunning": "true",
+                                    "files": [
+                                        "/etc/cfn/cfn-hup.conf",
+                                        "/etc/cfn/hooks.d/cfn-auto-reloader.conf"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "mount": {
+                        "commands": {
+                            "01_mount": {
+                                "command": {
+                                    "Fn::Sub": "sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 ${FileSystem}.efs.${AWS::Region}.amazonaws.com:/ /${MountPoint}"
+                                }
+                            },
+                            "02_permissions": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "chown ec2-user:ec2-user /",
+                                            {
+                                                "Ref": "MountPoint"
+                                            }
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "AWS::CloudFormation::Designer": {
+                    "id": "f9de7c61-77c0-41d4-8c9c-47fa7fe2800a"
+                }
+            },
+            "Properties": {
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "AWSRegionArch2AMI",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        {
+                            "Fn::FindInMap": [
+                                "AWSInstanceType2Arch",
+                                {
+                                    "Ref": "InstanceType"
+                                },
+                                "Arch"
+                            ]
+                        }
+                    ]
+                },
+                "SecurityGroups": [ { "Ref": "LoadBalancer" },{ "Ref": "AppServers" } ],
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "KeyName": {
+                    "Ref": "KeyName"
+                },
+                "IamInstanceProfile": {
+                    "Ref": "CloudWatchPutMetricsInstanceProfile"
+                },
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "#!/bin/bash -xe\n",
+                                "yum update -y aws-cfn-bootstrap\n",
+                                "/opt/aws/bin/cfn-init -v ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource LaunchConfig ",
+                                "         --configsets ServerConfig ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n",
+                                "crontab /home/ec2-user/crontab\n",
+                                "/opt/aws/bin/cfn-signal -e $? ",
+                                "         --stack ",
+                                {
+                                    "Ref": "AWS::StackName"
+                                },
+                                "         --resource WebServerGroup ",
+                                "         --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n"
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    }    
+}
