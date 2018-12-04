@@ -675,14 +675,14 @@
                 "ScalingAdjustment": 25
             }
         },
-        "CPUHighAlarm": {
+        "TrafficHighAlarm": {
             "Type": "AWS::CloudWatch::Alarm",
             "Properties": {
-                "EvaluationPeriods": 1,
-                "Statistic": "Average",
-                "Threshold": 80,
-                "AlarmDescription": "Alarm if CPU load is high.",
-                "Period": 300,
+                "EvaluationPeriods": 3,
+                "Statistic": "Maximum",
+                "Threshold": 20,
+                "AlarmDescription": "Alarm if traffic load is high.",
+                "Period": 60,
                 "AlarmActions": [
                     {
                         "Ref": "ScalingUpPolicy"
@@ -698,7 +698,7 @@
                     }
                 ],
                 "ComparisonOperator": "GreaterThanThreshold",
-                "MetricName": "CPUUtilization"
+                "MetricName": "NetworkPacketsIn"
             }
         },
         "ScalingDownPolicy": {
@@ -713,14 +713,14 @@
                 "ScalingAdjustment": -25
             }
         },
-        "CPULowAlarm": {
+        "NetworkLowAlarm": {
             "Type": "AWS::CloudWatch::Alarm",
             "Properties": {
                 "EvaluationPeriods": 3,
-                "Statistic": "Average",
-                "Threshold": 30,
-                "AlarmDescription": "Alarm if CPU load is low.",
-                "Period": 300,
+                "Statistic": "Maximum",
+                "Threshold": 10,
+                "AlarmDescription": "Alarm if traffic load is low.",
+                "Period": 60,
                 "AlarmActions": [
                     {
                         "Ref": "ScalingDownPolicy"
@@ -736,7 +736,7 @@
                     }
                 ],
                 "ComparisonOperator": "LessThanThreshold",
-                "MetricName": "CPUUtilization"
+                "MetricName": "NetworkPacketsIn"
             }
         },
         "LaunchConfiguration": {
