@@ -1,4 +1,4 @@
-# aws-stack
+# Apache Web stack
 
 
-CloudFormation template to automated the deployment of an Apache Web stack on AWS.
+CloudFormation template that automates the deployment of an Apache Web stack on AWS.
